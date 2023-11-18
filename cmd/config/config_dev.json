@@ -1,0 +1,26 @@
+{
+    "db": {
+        "username": "app",
+        "password": "app",
+        "host": "localhost",
+        "database": "app",
+        "schema": "app"
+    },
+    "dbslave": {
+        "username": "dbslave_username",
+        "password": "dbslave_password",
+        "host": "dbslave_host",
+        "database": "dbslave_database",
+        "schema": "dbslave_schema"
+    },
+    "auth": {
+        "token": "auth_token",
+        "key": "auth_key"
+    },
+    "url": {
+        "jira": "https://example.com/jira",
+        "confluence": "https://example.com/confluence",
+        "jenkins": "https://example.com/jenkins"
+    },
+    "mode": 1
+}

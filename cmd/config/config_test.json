@@ -1,0 +1,40 @@
+{
+    "db": {
+        "username": "ndzjkkdd",
+        "password": "rPv-OW78XpnXRrhtNDjNJlLUOumsmhnJ",
+        "host": "floppy.db.elephantsql.com",
+        "port": "5432",
+        "database": "ndzjkkdd",
+        "schema": "public",
+        "max_open_conn": 3,
+        "max_idle_conn": 2
+    },
+    "dbslave": {
+        "username": "dbslave_username",
+        "password": "dbslave_password",
+        "host": "dbslave_host",
+        "database": "dbslave_database",
+        "schema": "dbslave_schema",
+        "max_open_conn": 3,
+        "max_idle_conn": 2
+    },
+    "cron" :{
+        "task_1" : "* * * * *",
+        "task_2": "10 10 10 10 10"
+    },
+    "redis" :{
+        "address" : "redis-19069.c277.us-east-1-3.ec2.cloud.redislabs.com:19069",
+        "password": "7cotq2Rw1N0B3Z3uoYI3f9zW6no1hWqZ",
+        "db": 0
+    },
+    "auth": {
+        "token": "auth_token",
+        "key": "auth_key"
+    },
+    "url": {
+        "jira": "https://example.com/jira",
+        "confluence": "https://example.com/confluence",
+        "jenkins": "https://example.com/jenkins"
+    },
+    "mode": 1
+}
