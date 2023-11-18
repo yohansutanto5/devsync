@@ -20,7 +20,10 @@ func GetTransactionID(c *gin.Context) int {
 	transactionID, _ := c.Get("transactionID")
 	return ConvertToInt(transactionID)
 }
-
+func GetTransactionIDString(c *gin.Context) string {
+	transactionID, _ := c.Get("transactionID")
+	return ConvertToString(transactionID)
+}
 func GenerateRandomString(length int) string {
 	randomBytes := make([]byte, length)
 	_, err := rand.Read(randomBytes)

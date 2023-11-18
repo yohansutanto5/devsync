@@ -36,5 +36,8 @@
         "confluence": "https://example.com/confluence",
         "jenkins": "https://example.com/jenkins"
     },
+    "dir" : {
+        "sql" : "/home/yohan/devsync/db/sql_migrations"
+    },
     "mode": 1
 }

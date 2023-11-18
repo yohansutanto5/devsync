@@ -22,6 +22,10 @@ type redis struct {
 	DB       int    `json:"db"`
 }
 
+type dir struct {
+	Migration string `json:"sql"`
+}
+
 type cron struct {
 	Task1 string `json:"task_1"`
 	Task2 string `json:"task_2"`
@@ -53,6 +57,7 @@ type Configuration struct {
 	Redis   redis   `json:"redis"`
 	Cron    cron    `json:"cron"`
 	Mode    int     `json:"mode"`
+	Dir     dir
 }
 
 func Load(env string) Configuration {
@@ -61,11 +66,11 @@ func Load(env string) Configuration {
 
 	switch env {
 	case "dev":
-		configFile = "/home/yohan/standard-restAPI/cmd/config/config_dev.json"
+		configFile = os.Getenv("config")
 	case "prd":
-		configFile = "/home/yohan/workspace/cmd/config/config_prd.json"
+		configFile = os.Getenv("config")
 	case "test":
-		configFile = "/home/yohan/standard-restAPI/cmd/config/config_test.json"
+		configFile = os.Getenv("config") + "/config_test.json"
 	default:
 		panic("Input ENV")
 	}

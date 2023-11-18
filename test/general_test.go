@@ -4,6 +4,7 @@ import (
 	"app/cmd/config"
 	"app/db"
 	"fmt"
+	"os"
 	"testing"
 	"time"
 
@@ -24,6 +25,13 @@ func TestRedisCloud2(t *testing.T) {
 	}
 	fmt.Println(res)
 
+}
+
+func TestGetEnv (t *testing.T) {
+	if os.Getenv("config") != "/home/yohan/devsync/cmd/config" {
+		fmt.Println(os.LookupEnv("config"))
+		t.Fail()
+	}
 }
 
 func TestRedisCloud(t *testing.T) {

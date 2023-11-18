@@ -17,7 +17,7 @@ func Migration(config *config.Configuration, rollback bool) {
 		config.Db.Username, config.Db.Password, config.Db.Host, config.Db.Port, config.Db.Database, config.Db.Schema)
 
 	m, err := migrate.New(
-		"file://"+"/home/yohan/standard-restAPI/db/sql_migrations/",
+		"file://"+config.Dir.Migration,
 		dbURL,
 	)
 	if err != nil {
