@@ -14,3 +14,12 @@ type Application struct {
 	OwnerID     int
 	LeadID      int
 }
+
+type InsertApplicationIn struct {
+	ID          string `convert:"ID"`
+	Name        string `convert:"Name"`
+	Category    int    `convert:"Category"`
+	Description string `convert:"Description"`
+	OwnerID     int    `convert:"OwnerID"`
+	LeadID      int    `convert:"LeadID"`
+}

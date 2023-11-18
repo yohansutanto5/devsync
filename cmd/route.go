@@ -15,13 +15,15 @@ func setupRoutes() *gin.Engine {
 
 	userService := service.NewUserService(database)
 	UserProfileService := service.NewUserProfileService(database)
-
+	ApplicationService := service.NewApplicationService(database)
 	// Define The route Path
 	r.POST("/user", func(c *gin.Context) { handler.InsertUser(c, userService) })
 	r.POST("/userprofile", func(c *gin.Context) { handler.InsertUserProfile(c, UserProfileService) })
+	r.POST("/application", func(c *gin.Context) { handler.InsertApplication(c, ApplicationService) })
 
 	r.GET("/user", func(c *gin.Context) { handler.GetUser(c, userService) })
 	r.GET("/userprofile", func(c *gin.Context) { handler.GetUserProfile(c, UserProfileService) })
+	r.GET("/application", func(c *gin.Context) { handler.GetApplication(c, ApplicationService) })
 
 	// r.DELETE("/template/:id", handler.DeleteStudent)
 	// r.PUT("/template/:id", handler.UpdateStudent)
