@@ -16,8 +16,9 @@ import (
 )
 
 type DataStore struct {
-	Db    *gorm.DB
-	Redis *redis.Client
+	Db     *gorm.DB
+	DbView *gorm.DB
+	Redis  *redis.Client
 	// add elasticsearch here
 	// add slave connection here
 }

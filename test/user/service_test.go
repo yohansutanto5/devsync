@@ -63,3 +63,10 @@ func TestInsert_Normal_1(t *testing.T) {
 	}
 
 }
+
+func TestGetByID_Normal_1(t *testing.T) {
+	users, _ := userService.GetByID(4)
+	expectedId := 4
+	ActualId := users.ID
+	assert.Equal(t,expectedId,ActualId)
+}
