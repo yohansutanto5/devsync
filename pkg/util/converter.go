@@ -3,15 +3,19 @@ package util
 import (
 	"fmt"
 	"reflect"
+	"strconv"
 )
 
-func ConvertToInt(val interface{}) int {
+func ConvertToInt(val string) int {
 	// Use a type assertion to check if val is of type int
-	if intValue, ok := val.(int); ok {
-		return intValue
-	}
+	result, err := strconv.Atoi(val)
 	// If val is not of type int, return 0
-	return 0
+	if err != nil {
+		return 0
+	} else {
+		return result
+	}
+
 }
 
 func ConvertToString(value interface{}) string {

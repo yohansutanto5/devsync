@@ -62,7 +62,7 @@ func TestMigration(t *testing.T) {
 }
 
 func TestGormMigration(t *testing.T) {
-	err := ds.Db.AutoMigrate(model.UserProfile{}, model.User{}, model.Application{})
+	err := ds.Db.AutoMigrate(model.UserProfile{}, model.User{}, model.Application{}, model.ReleaseTicket{})
 	if err != nil {
 		fmt.Println(err.Error())
 		t.Fail()

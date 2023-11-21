@@ -17,8 +17,8 @@ func DateConvert() time.Time {
 }
 
 func GetTransactionID(c *gin.Context) int {
-	transactionID, _ := c.Get("transactionID")
-	return ConvertToInt(transactionID)
+	// transactionID, _ := c.Get("transactionID")
+	return ConvertToInt(GetTransactionIDString(c))
 }
 func GetTransactionIDString(c *gin.Context) string {
 	transactionID, _ := c.Get("transactionID")

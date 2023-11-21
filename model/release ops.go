@@ -2,10 +2,10 @@ package model
 
 import "time"
 
-type Release struct {
+type ReleaseTicket struct {
 	ID          int         `gorm:"primaryKey;autoIncrement"`
 	Application Application `gorm:"foreignKey:AppID"`
-	AppID       int
+	AppID       string
 	Status      string
 	VersionUAT  string
 	VersionPRD  string
@@ -14,4 +14,13 @@ type Release struct {
 
 	Created time.Time
 	Updated time.Time
+}
+
+
+type InsertReleaseTicketIn struct {
+	AppID       string
+	VersionUAT  string
+	VersionPRD  string
+	Workflow    string
+	Job         string
 }

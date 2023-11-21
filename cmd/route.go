@@ -15,6 +15,7 @@ func setupRoutes() *gin.Engine {
 	userService := service.NewUserService(database)
 	UserProfileService := service.NewUserProfileService(database)
 	ApplicationService := service.NewApplicationService(database)
+	ReleaseOPSService := service.NewReleaseOPSService(database)
 	// Define The route Path
 	// System API
 	r.GET("/health", func(c *gin.Context) { handler.GetSystemHealth(c, database) })
@@ -28,6 +29,11 @@ func setupRoutes() *gin.Engine {
 	r.GET("/user", func(c *gin.Context) { handler.GetUser(c, userService) })
 	r.GET("/userprofile", func(c *gin.Context) { handler.GetUserProfile(c, UserProfileService) })
 	r.GET("/application", func(c *gin.Context) { handler.GetApplication(c, ApplicationService) })
+
+	// RELEASE OPS MODULE
+	r.POST("/releaseops/ticket", func(c *gin.Context) { handler.InsertReleaseTicket(c, ReleaseOPSService) })
+	r.GET("/releaseops/ticket", func(c *gin.Context) { handler.GetReleaseTicket(c, ReleaseOPSService) })
+	r.POST("/releaseops/trigger-build/:ID", func(c *gin.Context) { handler.TriggerBuild(c, ReleaseOPSService) })
 
 	// r.DELETE("/template/:id", handler.DeleteStudent)
 	// r.PUT("/template/:id", handler.UpdateStudent)

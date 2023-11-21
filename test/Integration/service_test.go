@@ -8,6 +8,7 @@ import (
 )
 
 func TestTriggerJenkins(t *testing.T) {
-	err := jenkins.TriggerJenkinsWithoutParam()
+	jenkinsURL := "https://staging-jenkins.nexcloud.id/job/devsync/job/Credential/build"
+	err := jenkins.TriggerJenkinsWithoutParam(jenkinsURL)
 	assert.ErrorIs(t, nil, err)
 }
