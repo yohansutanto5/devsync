@@ -61,7 +61,7 @@ func InsertReleaseTicket(c *gin.Context, ReleaseOPS service.ReleaseOPSService) {
 	}
 
 	// Call create service
-	err := ReleaseOPS.Insert(&newReleaseTicket)
+	_, err := ReleaseOPS.Insert(&newReleaseTicket)
 
 	// Construct Response
 	if err != nil {
