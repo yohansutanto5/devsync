@@ -9,6 +9,7 @@ type Application struct {
 	Owner       User `gorm:"foreignKey:OwnerID"`
 	Lead        User `gorm:"foreignKey:LeadID"`
 	Description string
+	JenkinsDir  string `gorm:"jenkins_directory"`
 	Created     time.Time
 	Updated     time.Time
 	OwnerID     int

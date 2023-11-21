@@ -6,7 +6,7 @@ import (
 
 func (d *DataStore) GetListApplication() ([]model.Application, error) {
 	var Applications []model.Application
-	res := d.Db.Find(&Applications)
+	res := d.Db.Preload("Owner.Profile").Preload("Lead.Profile").Find(&Applications)
 	if res.Error != nil {
 		return nil, res.Error
 	}
