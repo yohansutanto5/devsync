@@ -13,8 +13,12 @@ func (d *DataStore) GetListReleaseTicket() ([]model.ReleaseTicket, error) {
 	return ReleaseTickets, nil
 }
 
-func (d *DataStore) InsertReleaseTicket(ReleaseTicket *model.ReleaseTicket) error {
-	return d.Db.Create(ReleaseTicket).Error
+func (d *DataStore) InsertReleaseTicket(ReleaseTicket *model.ReleaseTicket) (ticket *model.ReleaseTicket, err error) {
+	result := d.Db.Create(ReleaseTicket)
+	if result.Error != nil {
+		return nil, err
+	}
+	return ReleaseTicket, nil
 }
 
 func (d *DataStore) DeleteReleaseTicketByID(id int) error {

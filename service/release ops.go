@@ -9,9 +9,10 @@ import (
 
 // ReleaseOPSService defines the interface for managing ReleaseTickets.
 type ReleaseOPSService interface {
-	Insert(ReleaseTicket *model.ReleaseTicket) error
+	Insert(ReleaseTicket *model.ReleaseTicket) (ticket *model.ReleaseTicket, err error)
 	GetByID(id int) (*model.ReleaseTicket, error)
 	Update(data *model.ReleaseTicket) error
+	JenkinsSignal(id int, signal string) error
 	DeleteByID(id int) error
 	TriggerBuild(id int) error
 	New(FirstName, LastName string, id int) model.ReleaseTicket
@@ -30,11 +31,7 @@ func NewReleaseOPSService(db *db.DataStore, external *Integration.ExternalServic
 // Function Implementation
 func (s *ReleaseOPSServiceImpl) GetByID(id int) (*model.ReleaseTicket, error) {
 	// Implementation for fetching a ReleaseTicket by ID from the database
-	ReleaseTicket := &model.ReleaseTicket{}
-	if err := s.db.Db.Delete(ReleaseTicket).Error; err != nil {
-		return nil, err
-	}
-	return ReleaseTicket, nil
+	return s.db.GetReleaseTicketByID(id)
 }
 
 func (s ReleaseOPSServiceImpl) GetListTicket() ([]model.ReleaseTicket, error) {
@@ -48,7 +45,7 @@ func (s *ReleaseOPSServiceImpl) DeleteByID(id int) error {
 func (s *ReleaseOPSServiceImpl) TriggerBuild(id int) error {
 	// Retrieve the Jenkins Data from Ticket Data
 	fmt.Println(id)
-	ticket, err := s.db.GetReleaseTicketByID(id)
+	ticket, err := s.GetByID(id)
 	if err != nil {
 		return err
 	}
@@ -70,7 +67,20 @@ func (s *ReleaseOPSServiceImpl) Update(data *model.ReleaseTicket) error {
 	return s.db.UpdateReleaseTicket(data)
 }
 
-func (s *ReleaseOPSServiceImpl) Insert(ReleaseTicket *model.ReleaseTicket) error {
+func (s *ReleaseOPSServiceImpl) JenkinsSignal(id int, signal string) error {
+	data, err := s.GetByID(id)
+	if err != nil {
+		return err
+	}
+	if signal == "SUCCESS" {
+		data.Status = "UAT Verification"
+	} else {
+		data.Status = "UAT Deployment Failed"
+	}
+	return s.Update(data)
+}
+
+func (s *ReleaseOPSServiceImpl) Insert(ReleaseTicket *model.ReleaseTicket) (ticket *model.ReleaseTicket, err error) {
 	return s.db.InsertReleaseTicket(ReleaseTicket)
 }
 
