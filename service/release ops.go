@@ -1,7 +1,7 @@
 package service
 
 import (
-	"app/Integration/jenkins"
+	"app/Integration"
 	"app/db"
 	"app/model"
 	"fmt"
@@ -19,11 +19,12 @@ type ReleaseOPSService interface {
 }
 
 type ReleaseOPSServiceImpl struct {
-	db *db.DataStore
+	db       *db.DataStore
+	external *Integration.ExternalService
 }
 
-func NewReleaseOPSService(db *db.DataStore) ReleaseOPSService {
-	return &ReleaseOPSServiceImpl{db: db}
+func NewReleaseOPSService(db *db.DataStore, external *Integration.ExternalService) ReleaseOPSService {
+	return &ReleaseOPSServiceImpl{db: db, external: external}
 }
 
 // Function Implementation
@@ -54,7 +55,7 @@ func (s *ReleaseOPSServiceImpl) TriggerBuild(id int) error {
 	jenkinsURL := "https://staging-jenkins.nexcloud.id/job/devsync/job/Credential/build"
 
 	// Trigger jenkins >> This process is ASYNC
-	err = jenkins.TriggerJenkinsWithoutParam(jenkinsURL)
+	err = s.external.TriggerJenkinsWithoutParam(jenkinsURL)
 	if err != nil {
 		return err
 	}

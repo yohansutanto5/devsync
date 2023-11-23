@@ -1,6 +1,7 @@
 package main
 
 import (
+	"app/Integration"
 	"app/handler"
 	"app/service"
 
@@ -11,11 +12,12 @@ func setupRoutes() *gin.Engine {
 	r := gin.New()
 	r.Use(middleware, gin.Recovery())
 	// Initiate all services and dependency
+	IntegrationService := Integration.NewExternalService(&configuration)
 	// studentService := service.NewStudentService(database)
 	userService := service.NewUserService(database)
 	UserProfileService := service.NewUserProfileService(database)
 	ApplicationService := service.NewApplicationService(database)
-	ReleaseOPSService := service.NewReleaseOPSService(database)
+	ReleaseOPSService := service.NewReleaseOPSService(database, IntegrationService)
 	// Define The route Path
 	// System API
 	r.GET("/health", func(c *gin.Context) { handler.GetSystemHealth(c, database) })
