@@ -6,3 +6,4 @@ type ErrorResponse struct {
 	Message       string
 	Details       any
 }
+

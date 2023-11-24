@@ -15,7 +15,8 @@ type ReleaseOPSService interface {
 	Update(data *model.ReleaseTicket) error
 	WorkflowSignal(id int, signal string) error
 	DeleteByID(id int) error
-	TriggerBuild(id int) error
+	TriggerDeploy(id int) error
+	TriggerRollback(id int, rollbackTicket int) error
 	New(FirstName, LastName string, id int) model.ReleaseTicket
 	GetListTicket() ([]model.ReleaseTicket, error)
 }
@@ -43,7 +44,7 @@ func (s *ReleaseOPSServiceImpl) DeleteByID(id int) error {
 	return s.db.DeleteReleaseTicketByID(id)
 }
 
-func (s *ReleaseOPSServiceImpl) TriggerBuild(id int) error {
+func (s *ReleaseOPSServiceImpl) TriggerDeploy(id int) error {
 	// Retrieve the Jenkins Data from Ticket Data
 	fmt.Println(id)
 	ticket, err := s.GetByID(id)
@@ -63,7 +64,8 @@ func (s *ReleaseOPSServiceImpl) TriggerBuild(id int) error {
 	} else if ticket.Status == constanta.UATReady {
 		ticket.Status = constanta.UATDeploy
 	} else {
-		// make an error state that Status is not match
+		err = fmt.Errorf("Ticket status is mitmatched with the signal given from you. Your Signal is trigger build" +
+			" while current status is " + ticket.Status)
 		return err
 	}
 	return s.db.UpdateReleaseTicket(ticket)
@@ -87,8 +89,10 @@ func (s *ReleaseOPSServiceImpl) WorkflowSignal(id int, signal string) error {
 		return err
 	}
 	//
-	if signal == "SUCCESS" {
+	if data.Status == constanta.UATDeploy && signal == "SUCCESS" {
 		data.Status = constanta.UATVerify
+	} else if data.Status == constanta.PRDDeploy && signal == "SUCCESS" {
+		data.Status = constanta.PRDVerify
 	} else if signal == "FAILED" {
 		data.Status = constanta.Failed
 	} else if signal == "APPROVED" {
@@ -100,7 +104,8 @@ func (s *ReleaseOPSServiceImpl) WorkflowSignal(id int, signal string) error {
 	} else if data.Status == constanta.PRDVerify && signal == "VERIFIED" {
 		data.Status = constanta.Closed
 	} else {
-		// Create an error that status is missmatch
+		err = fmt.Errorf("Ticket status is mitmatched with the signal given from you. Your Signal is " +
+			signal + " while current status is " + data.Status)
 		return err
 	}
 	return s.Update(data)
@@ -115,4 +120,13 @@ func (s *ReleaseOPSServiceImpl) New(FirstName, LastName string, id int) model.Re
 	var st model.ReleaseTicket
 	st.ID = id
 	return st
+}
+
+func (s *ReleaseOPSServiceImpl) TriggerRollback(id int, rollbackTicket int) error {
+	// Get RollbackTicket ID details
+
+	// Build parameter 
+
+	// Trigger Rollback Pipeline
+	return nil
 }

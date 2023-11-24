@@ -41,12 +41,12 @@ func TestMain(m *testing.M) {
 
 		// Cleanup resources, close the database connection, etc.
 
-		if err := database.Db.Delete(&model.ReleaseTicket{}).Error; err != nil {
+		if err := database.Db.Where("1=1").Delete(&model.ReleaseTicket{}).Error; err != nil {
 			panic(fmt.Sprintf("Error truncating table: %s", err))
 		}
-		// if err := database.Db.Exec("SELECT setval(pg_get_serial_sequence('release_tickets', 'id'), coalesce(max(id), 1), false) FROM release_tickets").Error; err != nil {
-		// 	panic(fmt.Sprintf("Error resetting sequence: %s", err))
-		// }
+		if err := database.Db.Exec("SELECT setval(pg_get_serial_sequence('release_tickets', 'id'), coalesce(max(id), 1), false) FROM release_tickets").Error; err != nil {
+			panic(fmt.Sprintf("Error resetting sequence: %s", err))
+		}
 
 		os.Exit(exitCode)
 	}

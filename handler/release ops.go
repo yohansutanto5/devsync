@@ -29,7 +29,7 @@ func GetReleaseTicket(c *gin.Context, ReleaseOPS service.ReleaseOPSService) {
 
 func TriggerBuild(c *gin.Context, ReleaseOPS service.ReleaseOPSService) {
 	// To DO handle filter and search
-	err := ReleaseOPS.TriggerBuild(util.ConvertToInt(c.Param("ID")))
+	err := ReleaseOPS.TriggerDeploy(util.ConvertToInt(c.Param("ID")))
 	if err != nil {
 		errorResponse := model.ErrorResponse{
 			TransactionID: util.GetTransactionID(c),
