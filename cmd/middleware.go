@@ -10,23 +10,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Group using gin.BasicAuth() middleware
+// gin.Accounts is a shortcut for map[string]string
+
 func middleware(c *gin.Context) {
 	transactionID := generateTransactionID()
 	c.Set("transactionID", transactionID)
 	start := time.Now()
-	// Incoming request logging
-	incomingLog := model.CustomLog{
-		Agent:         c.Request.UserAgent(),
-		Method:        c.Request.Method,
-		ClientIp:      c.ClientIP(),
-		Path:          c.Request.URL.Path,
-		TransactionID: transactionID,
-		Status:        200,
-		Code:          constanta.CodeOK,
-		Message:       "Incoming Request",
-	}
-	log.Info(incomingLog)
-
 	defer func() {
 		if err := recover(); err != nil {
 			// Handle the error, log it, and send an appropriate response.
@@ -58,4 +48,8 @@ func generateTransactionID() int {
 	min := 100000
 	max := 999999
 	return rand.Intn(max-min+1) + min
+}
+
+func basicAuth() {
+
 }

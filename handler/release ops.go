@@ -57,7 +57,6 @@ func InsertReleaseTicket(c *gin.Context, ReleaseOPS service.ReleaseOPSService) {
 		VersionUAT: data.VersionUAT,
 		VersionPRD: data.VersionPRD,
 		Workflow:   data.Workflow,
-		Status:     "READY",
 	}
 
 	// Call create service

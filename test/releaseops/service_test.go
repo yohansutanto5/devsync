@@ -7,10 +7,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetList_Normal_1(t *testing.T) {
+func TestRelease_Flow_Normal_1(t *testing.T) {
 	input := model.ReleaseTicket{
 		AppID:      "APP5",
-		Status:     "READY",
 		VersionUAT: "123",
 		VersionPRD: "456",
 		Job:        "ABC",
@@ -22,6 +21,15 @@ func TestGetList_Normal_1(t *testing.T) {
 	assert.ErrorIs(t, err, nil)
 	assert.GreaterOrEqual(t, output.ID, 1)
 
-	err = ReleaseOPSService.JenkinsSignal(output.ID, "SUCCESS")
+	err = ReleaseOPSService.WorkflowSignal(output.ID, "SUCCESS")
 	assert.ErrorIs(t, err, nil)
+	// Approval Phase
+
+	// Approve
+
+	// Trigger Prod
+
+	// Jenkins signal prod
+
+	// Close
 }
