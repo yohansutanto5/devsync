@@ -39,7 +39,6 @@ func setupRoutes() *gin.Engine {
 
 	// Initiate all services and dependency
 	IntegrationService := Integration.NewExternalService(&configuration)
-	// studentService := service.NewStudentService(database)
 	userService := service.NewUserService(database)
 	UserProfileService := service.NewUserProfileService(database)
 	ApplicationService := service.NewApplicationService(database)
@@ -67,7 +66,6 @@ func setupRoutes() *gin.Engine {
 	r.GET("/releaseops/ticket", func(c *gin.Context) { handler.GetReleaseTicket(c, ReleaseOPSService) })
 	r.POST("/releaseops/trigger-build/:ID", func(c *gin.Context) { handler.TriggerBuild(c, ReleaseOPSService) })
 
-	// r.DELETE("/template/:id", handler.DeleteStudent)
-	// r.PUT("/template/:id", handler.UpdateStudent)
+
 	return r
 }

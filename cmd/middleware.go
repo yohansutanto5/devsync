@@ -49,7 +49,3 @@ func generateTransactionID() int {
 	max := 999999
 	return rand.Intn(max-min+1) + min
 }
-
-func basicAuth() {
-
-}

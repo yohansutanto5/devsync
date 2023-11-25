@@ -20,7 +20,7 @@ var database *db.DataStore
 var applicationService service.ApplicationService
 
 func TestMain(m *testing.M) {
-	configuration = config.Load("test")
+	configuration = config.Load("dev")
 	var err error
 	database = db.NewDatabase(configuration)
 	applicationService = service.NewApplicationService(database)

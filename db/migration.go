@@ -13,8 +13,14 @@ import (
 
 func Migration(config *config.Configuration, rollback bool) {
 	// Create a new migration instance
-	dbURL := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable&search_path=%s",
-		config.Db.Username, config.Db.Password, config.Db.Host, config.Db.Port, config.Db.Database, config.Db.Schema)
+	var dbURL string
+	if config.Db.Vendor == "mysql" {
+		dbURL = fmt.Sprintf("mysql://%s:%s@tcp(%s:%s)/%s",
+			config.Db.Username, config.Db.Password, config.Db.Host, config.Db.Port, config.Db.Database)
+	} else {
+		dbURL = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable&search_path=%s",
+			config.Db.Username, config.Db.Password, config.Db.Host, config.Db.Port, config.Db.Database, config.Db.Schema)
+	}
 
 	m, err := migrate.New(
 		"file://"+config.Dir.Migration,

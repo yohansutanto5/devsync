@@ -9,8 +9,8 @@ type Debt struct {
 	Category    string      `gorm:"not null"`
 	Status      string      `gorm:"not null;default:'NEW'"`
 	Due         time.Time   `gorm:"type:date;not null"`
-	Created     time.Time   `gorm:"type:date"`
-	Updated     time.Time   `gorm:"type:date"`
+	Created     time.Time   `gorm:"type:datetime;default:CURRENT_TIMESTAMP"`
+	Updated     time.Time   `gorm:"type:datetime;default:CURRENT_TIMESTAMP"`
 }
 type InsertDebtIn struct {
 	AppID    string    `convert:"AppID"`

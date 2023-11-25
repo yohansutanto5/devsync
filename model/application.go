@@ -9,9 +9,9 @@ type Application struct {
 	Owner       User   `gorm:"foreignKey:OwnerID"`
 	Lead        User   `gorm:"foreignKey:LeadID"`
 	Description string
-	JenkinsDir  string `gorm:"jenkins_directory;type:VARCHAR(200)"` // Full Jenkins URL link
-	Created     time.Time
-	Updated     time.Time
+	JenkinsDir  string    `gorm:"jenkins_directory;type:VARCHAR(200)"` // Full Jenkins URL link
+	Created     time.Time `gorm:"type:date;default:(CURRENT_DATE)"`
+	Updated     time.Time `gorm:"type:date;default:(CURRENT_DATE)"`
 	OwnerID     int
 	LeadID      int
 }

@@ -11,8 +11,8 @@ type User struct {
 	ProfileID int         // Foreign key
 	Email     string
 	Active    bool
-	Created   time.Time
-	Updated   time.Time
+	Created   time.Time `gorm:"type:date;default:(CURRENT_DATE)"`
+	Updated   time.Time `gorm:"type:date;default:(CURRENT_DATE)"`
 }
 
 // DTO input
