@@ -44,6 +44,8 @@ func setupRoutes() *gin.Engine {
 	UserProfileService := service.NewUserProfileService(database)
 	ApplicationService := service.NewApplicationService(database)
 	ReleaseOPSService := service.NewReleaseOPSService(database, IntegrationService)
+	DebtService := service.NewDebtService(database)
+
 	// Define The route Path
 	// System API
 	r.GET("/health", func(c *gin.Context) { handler.GetSystemHealth(c, database) })
@@ -51,12 +53,14 @@ func setupRoutes() *gin.Engine {
 	// Post Method
 	r.POST("/user", func(c *gin.Context) { handler.InsertUser(c, userService) })
 	r.POST("/userprofile", func(c *gin.Context) { handler.InsertUserProfile(c, UserProfileService) })
-	r.POST("/application", func(c *gin.Context) { handler.InsertApplication(c, ApplicationService) })
+	r.POST("/onboarding/application", func(c *gin.Context) { handler.InsertApplication(c, ApplicationService) })
+	r.POST("/debt", func(c *gin.Context) { handler.InsertDebt(c, DebtService) })
 
 	// Get Method
 	r.GET("/user", func(c *gin.Context) { handler.GetUser(c, userService) })
 	r.GET("/userprofile", func(c *gin.Context) { handler.GetUserProfile(c, UserProfileService) })
 	r.GET("/application", func(c *gin.Context) { handler.GetApplication(c, ApplicationService) })
+	r.GET("/debt", func(c *gin.Context) { handler.InsertDebt(c, DebtService) })
 
 	// RELEASE OPS MODULE
 	r.POST("/releaseops/ticket", func(c *gin.Context) { handler.InsertReleaseTicket(c, ReleaseOPSService) })

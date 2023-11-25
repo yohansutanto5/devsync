@@ -8,6 +8,7 @@ import (
 type db struct {
 	Username    string `json:"username"`
 	Password    string `json:"password"`
+	Vendor      string `json:"vendor"`
 	Host        string `json:"host"`
 	Port        string `json:"port"`
 	Database    string `json:"database"`
@@ -66,7 +67,7 @@ func Load(env string) Configuration {
 
 	switch env {
 	case "dev":
-		configFile = os.Getenv("config")
+		configFile = os.Getenv("config") + "/config_dev.json"
 	case "prd":
 		configFile = os.Getenv("config")
 	case "test":

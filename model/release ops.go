@@ -5,7 +5,7 @@ import "time"
 type ReleaseTicket struct {
 	ID          int         `gorm:"primaryKey;autoIncrement"`
 	Application Application `gorm:"foreignKey:AppID"`
-	AppID       string
+	AppID       string      `gorm:"type:VARCHAR(10);not null;"`
 	Status      string
 	VersionUAT  string
 	VersionPRD  string
@@ -16,11 +16,10 @@ type ReleaseTicket struct {
 	Updated time.Time
 }
 
-
 type InsertReleaseTicketIn struct {
-	AppID       string
-	VersionUAT  string
-	VersionPRD  string
-	Workflow    string
-	Job         string
+	AppID      string
+	VersionUAT string
+	VersionPRD string
+	Workflow   string
+	Job        string
 }

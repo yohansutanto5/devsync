@@ -1,17 +1,31 @@
 {
     "db": {
-        "username": "app",
-        "password": "app",
-        "host": "localhost",
-        "database": "app",
-        "schema": "app"
+        "username": "devsync",
+        "password": "DE#2wsaq1",
+        "host": "db4free.net",
+        "port": "3306",
+        "database": "devsync",
+        "max_open_conn": 3,
+        "max_idle_conn": 2,
+        "vendor" : "mysql"
     },
     "dbslave": {
         "username": "dbslave_username",
         "password": "dbslave_password",
         "host": "dbslave_host",
         "database": "dbslave_database",
-        "schema": "dbslave_schema"
+        "schema": "dbslave_schema",
+        "max_open_conn": 3,
+        "max_idle_conn": 2
+    },
+    "cron" :{
+        "task_1" : "* * * * *",
+        "task_2": "10 10 10 10 10"
+    },
+    "redis" :{
+        "address" : "redis-19069.c277.us-east-1-3.ec2.cloud.redislabs.com:19069",
+        "password": "7cotq2Rw1N0B3Z3uoYI3f9zW6no1hWqZ",
+        "db": 0
     },
     "auth": {
         "token": "auth_token",
@@ -21,6 +35,9 @@
         "jira": "https://example.com/jira",
         "confluence": "https://example.com/confluence",
         "jenkins": "https://example.com/jenkins"
+    },
+    "dir" : {
+        "sql" : "/home/yohan/devsync/db/sql_migrations"
     },
     "mode": 1
 }

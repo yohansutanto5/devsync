@@ -3,13 +3,13 @@ package model
 import "time"
 
 type Application struct {
-	ID          string
-	Name        string
-	Category    int
-	Owner       User `gorm:"foreignKey:OwnerID"`
-	Lead        User `gorm:"foreignKey:LeadID"`
+	ID          string `gorm:"type:VARCHAR(10);not null;primaryKey"`
+	Name        string `gorm:"type:VARCHAR(50);not null"`
+	Category    int    `gorm:"type:SMALLINT;not null"`
+	Owner       User   `gorm:"foreignKey:OwnerID"`
+	Lead        User   `gorm:"foreignKey:LeadID"`
 	Description string
-	JenkinsDir  string `gorm:"jenkins_directory"` // Full Jenkins URL link
+	JenkinsDir  string `gorm:"jenkins_directory;type:VARCHAR(200)"` // Full Jenkins URL link
 	Created     time.Time
 	Updated     time.Time
 	OwnerID     int

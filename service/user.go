@@ -46,6 +46,13 @@ func (s *UserServiceImpl) Update(data *model.User) error {
 }
 
 func (s *UserServiceImpl) Insert(User *model.User) error {
+	// Handle logic old or new employee
+	// If new employee
+		// Generate VPN
+		// Generate Email
+		// Genarate all other thing depend on the role selected
+		// If hard. then will auto create request
+
 	return s.db.InsertUser(User)
 }
 
