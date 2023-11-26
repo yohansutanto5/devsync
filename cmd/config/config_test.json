@@ -43,7 +43,7 @@
         "mysql" :false,
         "postgresql" :false,
         "redis" : false,
-        "kafka" : false,
+        "kafka" : true,
         "run" : "debug"
     }
 }

@@ -55,3 +55,22 @@ func (s *ApplicationServiceImpl) Insert(Application *model.Application) error {
 	// The activation is either by Approve or Reject the request. Requestor also able to cancel the request
 	return nil
 }
+
+func (s *ApplicationServiceImpl) Activation(appID string, action string) error {
+
+	app, err := s.db.GetApplicationByID(appID)
+	if err != nil {
+		return err
+	}
+	// Handle rejected or approved
+	if action == "APPROVED" {
+		// Create jenkins Dir
+		// Create Bitbucket
+		app.Active = true
+		app.JenkinsDir = "asdasd"
+	} else {
+		app.Active = false
+	}
+
+	return s.db.UpdateApplication(&app)
+}

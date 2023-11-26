@@ -46,7 +46,7 @@ func setupRoutes() *gin.Engine {
 	ApplicationService := service.NewApplicationService(database)
 	ReleaseOPSService := service.NewReleaseOPSService(database, IntegrationService)
 	DebtService := service.NewDebtService(database)
-
+	requestService := service.NewRequestService(database)
 	// Define The route Path
 	// System API
 	r.GET("/health", func(c *gin.Context) { handler.GetSystemHealth(c, database) })
@@ -62,6 +62,8 @@ func setupRoutes() *gin.Engine {
 	r.GET("/userprofile", func(c *gin.Context) { handler.GetUserProfile(c, UserProfileService) })
 	r.GET("/application", func(c *gin.Context) { handler.GetApplication(c, ApplicationService) })
 	r.GET("/debt", func(c *gin.Context) { handler.InsertDebt(c, DebtService) })
+	r.GET("/request", func(c *gin.Context) { handler.GetRequest(c, requestService) })
+	r.GET("/request/action/:token", func(c *gin.Context) { handler.GetRequest(c, requestService) })
 
 	// RELEASE OPS MODULE
 	r.POST("/releaseops/ticket", func(c *gin.Context) { handler.InsertReleaseTicket(c, ReleaseOPSService) })
@@ -73,13 +75,13 @@ func setupRoutes() *gin.Engine {
 
 // Event Driven
 func topicRoutes(message *kafka.Message) {
-	var topic *string = &configuration.Kafka.ApprovalTopic
+	IntegrationService := Integration.NewExternalService(&configuration)
+	ReleaseOPSService := service.NewReleaseOPSService(database, IntegrationService)
+
 	// Perform processing based on the content of the message
-	switch message.TopicPartition.Topic {
-	case topic:
-		// Handle messages from a specific topic
-		handler.ApprovalEventAction(message)
-	default:
+	if *message.TopicPartition.Topic == configuration.Kafka.ApprovalTopic {
+		handler.ApprovalEventAction(message, ReleaseOPSService)
+	} else {
 		// Handle messages from other topics or implement a default behavior
 		// fmt.Printf("Received message from unknown topic: %s\n", message.TopicPartition.Topic)
 	}

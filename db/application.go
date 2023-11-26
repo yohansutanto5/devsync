@@ -13,6 +13,11 @@ func (d *DataStore) GetListApplication() ([]model.Application, error) {
 	return Applications, nil
 }
 
+func (d *DataStore) GetApplicationByID(id string) (res model.Application, err error) {
+	err = d.Db.Where("id = ?", id).First(&res).Error
+	return
+}
+
 func (d *DataStore) InsertApplication(Application *model.Application) error {
 	return d.Db.Create(Application).Error
 }
