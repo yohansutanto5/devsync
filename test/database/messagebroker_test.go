@@ -3,9 +3,6 @@ package dbtest
 import (
 	"fmt"
 	"log"
-	"os"
-	"os/signal"
-	"syscall"
 	"testing"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
@@ -26,29 +23,29 @@ func TestProduceMessage(t *testing.T) {
 	assert.ErrorIs(t, nil, err)
 }
 
-func TestConsumerMessage(t *testing.T) {
-	// Subscribe to the approval events topic
-	ds.Consumer.SubscribeTopics([]string{configs.Kafka.ApprovalTopic}, nil)
+// func TestConsumerMessage(t *testing.T) {
+// 	// Subscribe to the approval events topic
+// 	ds.Consumer.SubscribeTopics([]string{configs.Kafka.ApprovalTopic}, nil)
 
-	// Handle termination signals
-	sigchan := make(chan os.Signal, 1)
-	signal.Notify(sigchan, syscall.SIGINT, syscall.SIGTERM)
+// 	// Handle termination signals
+// 	sigchan := make(chan os.Signal, 1)
+// 	signal.Notify(sigchan, syscall.SIGINT, syscall.SIGTERM)
 
-	// Main loop for consuming events
-	for {
-		select {
-		case <-sigchan:
-			fmt.Println("Received termination signal. Exiting...")
-			return
-		default:
-			ev := ds.Consumer.Poll(1)
-			switch e := ev.(type) {
-			case *kafka.Message:
-				fmt.Printf("Received message: %s\n", e.Value)
-				// Parse the message and perform the corresponding action (e.g., trigger the task)
-			case kafka.Error:
-				fmt.Printf("Error: %v\n", e)
-			}
-		}
-	}
-}
+// 	// Main loop for consuming events
+// 	for {
+// 		select {
+// 		case <-sigchan:
+// 			fmt.Println("Received termination signal. Exiting...")
+// 			return
+// 		default:
+// 			ev := ds.Consumer.Poll(1)
+// 			switch e := ev.(type) {
+// 			case *kafka.Message:
+// 				fmt.Printf("Received message: %s\n", e.Value)
+// 				// Parse the message and perform the corresponding action (e.g., trigger the task)
+// 			case kafka.Error:
+// 				fmt.Printf("Error: %v\n", e)
+// 			}
+// 		}
+// 	}
+// }

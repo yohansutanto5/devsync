@@ -6,9 +6,11 @@ import (
 	"app/service"
 	"net/http"
 
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/gin-gonic/gin"
 )
 
+// Rest API
 func setupRoutes() *gin.Engine {
 	r := gin.New()
 	// Setup Middleware
@@ -66,6 +68,20 @@ func setupRoutes() *gin.Engine {
 	r.GET("/releaseops/ticket", func(c *gin.Context) { handler.GetReleaseTicket(c, ReleaseOPSService) })
 	r.POST("/releaseops/trigger-build/:ID", func(c *gin.Context) { handler.TriggerBuild(c, ReleaseOPSService) })
 
-
 	return r
+}
+
+// Event Driven
+func topicRoutes(message *kafka.Message) {
+	var topic *string = &configuration.Kafka.ApprovalTopic
+	// Perform processing based on the content of the message
+	switch message.TopicPartition.Topic {
+	case topic:
+		// Handle messages from a specific topic
+		handler.ApprovalEventAction(message)
+	default:
+		// Handle messages from other topics or implement a default behavior
+		// fmt.Printf("Received message from unknown topic: %s\n", message.TopicPartition.Topic)
+	}
+
 }

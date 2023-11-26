@@ -13,7 +13,7 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
-func startConsumerListener(config config.Configuration) {
+func startEventListener(config config.Configuration) {
 	// Configure Kafka consumer
 	consumerClient, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": fmt.Sprintf("%s:%s", config.Kafka.Hostname, config.Kafka.Port),
@@ -56,6 +56,7 @@ func startConsumerListener(config config.Configuration) {
 				switch e := ev.(type) {
 				case *kafka.Message:
 					fmt.Printf("Received message: %s\n", e.Value)
+					topicRoutes(e)
 					// Add your message handling logic here
 				case kafka.Error:
 					fmt.Printf("Error: %v\n", e)

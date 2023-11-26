@@ -48,5 +48,12 @@
         "consumerGroup"   : "tujddgkn-default",
         "approvalTopic"   : "tujddgkn-default"
     },
-    "mode": 1
+    "mode": {
+        "mysql" :false,
+        "postgresql" :false,
+        "slave":false,
+        "redis" : false,
+        "kafka" : false,
+        "run" : "debug"
+    }
 }

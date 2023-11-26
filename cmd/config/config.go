@@ -60,6 +60,15 @@ type kafka struct {
 	ApprovalTopic string `json:"approvalTopic"`
 }
 
+type mode struct {
+	Mysql      bool   `json:"mysql"`
+	Postgresql bool   `json:"postgresql"`
+	Redis      bool   `json:"redis"`
+	Kafka      bool   `json:"kafka"`
+	Slave      bool   `json:"slave"`
+	Run        string `json:"run"`
+}
+
 type Configuration struct {
 	Db      db      `json:"db"`
 	Dbslave dbslave `json:"dbslave"`
@@ -67,7 +76,7 @@ type Configuration struct {
 	URL     url     `json:"url"`
 	Redis   redis   `json:"redis"`
 	Cron    cron    `json:"cron"`
-	Mode    int     `json:"mode"`
+	Mode    mode    `json:"mode"`
 	Dir     dir
 	Kafka   kafka `json:"kafka"`
 }
