@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
-	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
@@ -18,9 +18,10 @@ import (
 )
 
 type DataStore struct {
-	Db     *gorm.DB
-	DbView *gorm.DB
-	Redis  *redis.Client
+	Db       *gorm.DB
+	DbView   *gorm.DB
+	Redis    *redis.Client
+	Producer *kafka.Producer
 	// add elasticsearch here
 	// add slave connection here
 }
@@ -60,18 +61,24 @@ func NewDatabase(config config.Configuration) *DataStore {
 
 	_, err = redisClient.Ping().Result()
 	if err != nil {
-		// log.Fatal("Failed to Initiate Redis Connection")
-		// panic(err)
+		log.Fatal("Failed to Initiate Redis Connection")
 	}
 
-	// defer func() {
-	// 	redisClient.Close()
-	// 	sqlPoolConnection.Close()
-	// }()
+	producerClient, err := kafka.NewProducer(&kafka.ConfigMap{
+		"bootstrap.servers": fmt.Sprintf("%s:%s", config.Kafka.Hostname, config.Kafka.Port),
+		"sasl.mechanisms":   config.Kafka.AuthMethod,
+		"security.protocol": "sasl_ssl",
+		"sasl.username":     config.Kafka.User,
+		"sasl.password":     config.Kafka.Password,
+	})
+	if err != nil {
+		log.Fatal("Failed to Initiate Kafka Producer Connection")
+	}
 
 	return &DataStore{
-		Db:    sqlConnection,
-		Redis: redisClient,
+		Db:       sqlConnection,
+		Redis:    redisClient,
+		Producer: producerClient,
 	}
 }
 
@@ -89,21 +96,4 @@ func GetContext(c *gin.Context) *DataStore {
 		log.Error(util.GetTransactionID(c), "Failed to connect to DB", constanta.FailToConnectCode, nil)
 	}
 	return nil
-}
-
-func ConnectDB(username, password, host, dbName string) (*sqlx.DB, error) {
-	connectionString := "user=" + username + " password=" + password + " host=" + host + " dbname=" + dbName + " sslmode=disable" + " search_path=app"
-	db, err := sqlx.Open("postgres", connectionString)
-	if err != nil {
-		return nil, err
-	}
-	// Set the maximum number of open and idle connections
-	db.SetMaxOpenConns(100)
-	db.SetMaxIdleConns(10)
-
-	err = db.Ping()
-	if err != nil {
-		return nil, err
-	}
-	return db, nil
 }

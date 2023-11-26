@@ -28,6 +28,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	// Start Listener Kafka
+	startConsumerListener(configuration)
+
 	// Setup Gin Route
 	r := setupRoutes()
 	r.Run(":8078")

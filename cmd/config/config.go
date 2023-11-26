@@ -50,6 +50,16 @@ type url struct {
 	Jenkins    string `json:"jenkins"`
 }
 
+type kafka struct {
+	Hostname      string `json:"hostname"`
+	User          string `json:"user"    `
+	Password      string `json:"password"`
+	Port          string `json:"port" `
+	AuthMethod    string `json:"authMethod"`
+	ConsumerGroup string `json:"consumerGroup"`
+	ApprovalTopic string `json:"approvalTopic"`
+}
+
 type Configuration struct {
 	Db      db      `json:"db"`
 	Dbslave dbslave `json:"dbslave"`
@@ -59,6 +69,7 @@ type Configuration struct {
 	Cron    cron    `json:"cron"`
 	Mode    int     `json:"mode"`
 	Dir     dir
+	Kafka   kafka `json:"kafka"`
 }
 
 func Load(env string) Configuration {

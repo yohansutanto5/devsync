@@ -12,6 +12,7 @@ type Application struct {
 	JenkinsDir  string    `gorm:"jenkins_directory;type:VARCHAR(200)"` // Full Jenkins URL link
 	Created     time.Time `gorm:"type:date;default:(CURRENT_DATE)"`
 	Updated     time.Time `gorm:"type:date;default:(CURRENT_DATE)"`
+	Active      bool      `gorm:"type:bool;not null"`
 	OwnerID     int
 	LeadID      int
 }

@@ -39,5 +39,14 @@
     "dir" : {
         "sql" : "/home/yohan/devsync/db/sql_migrations"
     },
+    "kafka" : {
+        "hostname"        : "dory.srvs.cloudkafka.com",
+        "user"            : "tujddgkn",
+        "password"        : "Vif57S7286iadOQyFRqYX8clYdOxq0Xv",
+        "port"            : "9094",
+        "authMethod"      : "SCRAM-SHA-512",
+        "consumerGroup"   : "tujddgkn-default",
+        "approvalTopic"   : "tujddgkn-default"
+    },
     "mode": 1
 }

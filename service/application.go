@@ -45,5 +45,13 @@ func (s *ApplicationServiceImpl) Update(data *model.Application) error {
 }
 
 func (s *ApplicationServiceImpl) Insert(Application *model.Application) error {
-	return s.db.InsertApplication(Application)
+	// Status should be deactivated before approved by manager
+	Application.Active = false
+	err := s.db.InsertApplication(Application)
+	if err != nil {
+		return err
+	}
+	// Send Activation to Email and input it as task in the user dashboard
+	// The activation is either by Approve or Reject the request. Requestor also able to cancel the request
+	return nil
 }
