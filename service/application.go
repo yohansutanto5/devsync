@@ -1,6 +1,7 @@
 package service
 
 import (
+	"app/constanta"
 	"app/db"
 	"app/model"
 )
@@ -47,7 +48,15 @@ func (s *ApplicationServiceImpl) Update(data *model.Application) error {
 func (s *ApplicationServiceImpl) Insert(Application *model.Application) error {
 	// Status should be deactivated before approved by manager
 	Application.Active = false
-	err := s.db.InsertApplication(Application)
+
+	request := model.Request{
+		PrimaryApproverID: Application.OwnerID,
+		Status:            constanta.ApprovalPending,
+		AppID:             Application.ID,
+		Type:              "application",
+		ApprovalURI: "asdasd",
+	}
+	err := s.db.InsertApplication(Application, &request)
 	if err != nil {
 		return err
 	}

@@ -18,8 +18,18 @@ func (d *DataStore) GetApplicationByID(id string) (res model.Application, err er
 	return
 }
 
-func (d *DataStore) InsertApplication(Application *model.Application) error {
-	return d.Db.Create(Application).Error
+func (d *DataStore) InsertApplication(app *model.Application, req *model.Request) error {
+	tx := d.Db.Begin()
+	if err := tx.Create(app).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	if err := tx.Create(req).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit().Error
 }
 
 func (d *DataStore) DeleteApplicationByID(id int) error {
